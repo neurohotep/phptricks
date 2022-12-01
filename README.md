@@ -6,7 +6,7 @@
 
 ---
 
-### Делать отступы как можно меньше
+### Старайтесть делать отступы как можно меньше
 
 До
 
@@ -76,4 +76,35 @@
                 yield $basketItem;
             }
         }
+    }
+
+
+### Удаляйте ненужные блоки в условиях
+
+До 
+
+    function mapOrderStatusToLabel(Order $order): string
+    {
+        if ($order->isComplete()) {
+            return 'Completed';
+        } elseif ($order->isPending()) {
+            return 'In transport';
+        } else {
+            return 'New';
+        }
+    }
+
+После
+
+    function mapOrderStatusToLabel(Order $order): string
+    {
+        if ($order->isComplete()) {
+            return 'Completed';
+        }
+
+        if ($order->isPending()) {
+            return 'In transport';
+        }
+
+        return 'New';
     }
