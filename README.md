@@ -78,6 +78,7 @@
         }
     }
 
+---
 
 ### Удаляйте ненужные блоки в условиях
 
@@ -108,3 +109,194 @@
 
         return 'New';
     }
+
+---
+
+### Меняйте местами условия, чтобы уменьшить отступы
+
+До
+
+    function act(bool $success)
+    {
+        if ($success) {
+            // towering block of code
+            // towering block of code
+            // towering block of code
+            // towering block of code
+            // towering block of code
+            // towering block of code
+            // towering block of code
+        } else {
+            // one liner
+        }
+    }
+    
+После
+
+    function act(bool $success)
+    {
+        if (!$success) {
+            // one liner
+            return;
+        }
+
+        // towering block of code
+        // towering block of code
+        // towering block of code
+        // towering block of code
+        // towering block of code
+        // towering block of code
+        // towering block of code
+    }
+
+---
+
+### Используйте switch вместо if там, где это возможно
+
+До
+
+    function mapOrderStatusToLabel(Order $order): string
+    {
+        $label = 'unknown';
+
+        if ('complete' === $order->getStatus()) {
+            $label = 'Completed';
+        }
+
+        if ('pending' === $order->getStatus()) {
+            $label = 'In transport';
+        }
+
+        if ('new' === $order->getStatus()) {
+            $label = 'New';
+        }
+
+        return $label';
+    }
+    
+После
+
+    function mapOrderStatusToLabel(Order $order): string
+    {
+        switch ($order->getStatus()) {
+            case 'complete':
+                return 'Completed';
+
+            case 'pending':
+            case 'in_transport':
+                return 'In transport';
+
+            case 'new':
+                return 'New';
+
+            default:
+                return 'unknown';
+        }
+    }
+    
+---
+
+### Разбивать сложные уравнения для краткости
+
+До
+
+    function getTotalWithTax(Payment $payment, int $taxPercent): float
+    {
+        // is the order correct at all?
+
+        return (float) (int) $payment->getTotal() * (1 + $taxPercent / 100);
+    }
+    
+После
+
+    function getTotalWithTax(Payment $payment, int $taxPercent): float
+    {
+        // descriptive variables with intermediary values for easier debugging
+        $paymentAmount = (int) $payment->getAmount();
+        $taxCoefficient = 1 + ($taxPercent / 100);
+
+        $totalWithTax = $paymentAmount * $taxCoefficient;
+
+        return (float) $totalWithTax;
+    }
+    
+---
+
+### Расставлять условия в логическом порядке в операторах if
+
+До
+
+    if ($httpApi->hasAccess($user) && $user->isActive() && $isSuccess) {
+        // all conditions must be met in order for this condition to execute
+        // in case of 'and' we should keep the heaviest conditions last
+        // and the fastest to execute in front
+    }
+    
+После
+
+    if ($isSuccess && $user->isActive() && $httpApi->hasAccess($user)) {
+        // if $isSuccess is false
+        // other conditions will not be evaluated
+    }
+    
+---
+
+### Предпочитайте именованные методы флагам
+
+До
+
+    class UserRepository
+    {
+        public function getUsers(?bool $includingDeleted = false): array
+        {
+        }
+    }
+    
+После
+
+    class UserRepository
+    {
+        public function getUsers(): array
+        {
+        }
+
+        public function getUsersIncludingDeleted(): array
+        {
+        }
+    }
+    
+---
+
+### Используйте деструктуризацию массива
+
+До
+
+    $workers = [
+      ['id' => 1, 'name' => 'John Doe'],
+      ['id' => 3, 'name' => 'Jane Doe'],
+      ['id' => 4, 'name' => 'Monica Trullo'],
+      ['id' => 5, 'name' => 'Jonathan Bank'],
+    ];
+
+    foreach ($workers as $worker) {
+      $workerId = $worker['id'];
+      $workerName = $worker['name'];
+
+      // …
+    }
+    
+После
+
+    $workers = [
+      ['id' => 1, 'name' => 'John Doe'],
+      ['id' => 3, 'name' => 'Jane Doe'],
+      ['id' => 4, 'name' => 'Monica Trullo'],
+      ['id' => 5, 'name' => 'Jonathan Bank'],
+    ];
+
+    foreach ($workers as ['id' => $workerId, 'name' => $workerName]) {
+      // …
+    }
+    
+---
+
