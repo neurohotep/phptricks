@@ -307,3 +307,17 @@
     
 ---
 
+### array_column для маппинга данных
+
+До
+
+    $userAvatars = [];
+    foreach ($users as $user) {
+        $userAvatars[$user['id']] = $user['avatar'];
+    }
+    
+После
+
+    $userAvatars = array_column($users, 'id', 'avatar');
+    
+---
