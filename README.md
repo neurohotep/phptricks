@@ -2,7 +2,7 @@
 
 ---
 
-* [Старайтесть делать отступы как можно меньше](https://github.com/neurohotep/phptricks/blob/main/README.md#%D1%81%D1%82%D0%B0%D1%80%D0%B0%D0%B9%D1%82%D0%B5%D1%81%D1%82%D1%8C-%D0%B4%D0%B5%D0%BB%D0%B0%D1%82%D1%8C-%D0%BE%D1%82%D1%81%D1%82%D1%83%D0%BF%D1%8B-%D0%BA%D0%B0%D0%BA-%D0%BC%D0%BE%D0%B6%D0%BD%D0%BE-%D0%BC%D0%B5%D0%BD%D1%8C%D1%88%D0%B5)
+* [Старайтесь делать отступы как можно меньше](https://github.com/neurohotep/phptricks/blob/main/README.md#%D1%81%D1%82%D0%B0%D1%80%D0%B0%D0%B9%D1%82%D0%B5%D1%81%D1%82%D1%8C-%D0%B4%D0%B5%D0%BB%D0%B0%D1%82%D1%8C-%D0%BE%D1%82%D1%81%D1%82%D1%83%D0%BF%D1%8B-%D0%BA%D0%B0%D0%BA-%D0%BC%D0%BE%D0%B6%D0%BD%D0%BE-%D0%BC%D0%B5%D0%BD%D1%8C%D1%88%D0%B5)
 * [Удаляйте ненужные блоки в условиях](https://github.com/neurohotep/phptricks/blob/main/README.md#%D1%83%D0%B4%D0%B0%D0%BB%D1%8F%D0%B9%D1%82%D0%B5-%D0%BD%D0%B5%D0%BD%D1%83%D0%B6%D0%BD%D1%8B%D0%B5-%D0%B1%D0%BB%D0%BE%D0%BA%D0%B8-%D0%B2-%D1%83%D1%81%D0%BB%D0%BE%D0%B2%D0%B8%D1%8F%D1%85)
 * [Меняйте местами условия, чтобы уменьшить отступы](https://github.com/neurohotep/phptricks/blob/main/README.md#%D0%BC%D0%B5%D0%BD%D1%8F%D0%B9%D1%82%D0%B5-%D0%BC%D0%B5%D1%81%D1%82%D0%B0%D0%BC%D0%B8-%D1%83%D1%81%D0%BB%D0%BE%D0%B2%D0%B8%D1%8F-%D1%87%D1%82%D0%BE%D0%B1%D1%8B-%D1%83%D0%BC%D0%B5%D0%BD%D1%8C%D1%88%D0%B8%D1%82%D1%8C-%D0%BE%D1%82%D1%81%D1%82%D1%83%D0%BF%D1%8B)
 * [Используйте switch вместо if там, где это возможно](https://github.com/neurohotep/phptricks/blob/main/README.md#%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D0%B9%D1%82%D0%B5-switch-%D0%B2%D0%BC%D0%B5%D1%81%D1%82%D0%BE-if-%D1%82%D0%B0%D0%BC-%D0%B3%D0%B4%D0%B5-%D1%8D%D1%82%D0%BE-%D0%B2%D0%BE%D0%B7%D0%BC%D0%BE%D0%B6%D0%BD%D0%BE)
@@ -14,7 +14,7 @@
 
 ---
 
-### Старайтесть делать отступы как можно меньше
+### Старайтесь делать отступы как можно меньше
 
 До
 
@@ -320,5 +320,22 @@
 После
 
     $userAvatars = array_column($users, 'avatar', 'id');
+    
+---
+
+### Не используйте array_merge в циклах
+
+На каждой итерации PHP копирует массив в другой временный массив, что приводит к временному выделению памяти. С каждой последующей итерацией объем используемой памяти увеличивается.
+
+До
+
+    $result = array();
+    foreach ($source as $list) {
+        $result = array_merge($result, $list);
+    }
+    
+После
+
+    $result = array_merge(...$source);
     
 ---
