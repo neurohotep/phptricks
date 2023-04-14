@@ -340,3 +340,41 @@
     $result = array_merge(...$source);
     
 ---
+
+### Не используйте isset() для проверки существования элемента массива
+
+До
+
+    $moneyInTheBank = [
+        'John' => 10,
+        'Alex' => 0,
+        'Jenna' => 69,
+        'Olivia' => null
+    ];
+
+    if (!isset($moneyInTheBank['Olivia'])) {
+        $moneyInTheBank['Olivia'] = 20;
+    }
+
+    echo $moneyInTheBank['Olivia'];
+
+    // outputs 20
+    
+После
+
+    $moneyInTheBank = [
+        'John' => 10,
+        'Alex' => 0,
+        'Jenna' => 69,
+        'Olivia' => null
+    ];
+
+    if (!array_key_exists('Olivia', $moneyInTheBank)) {
+        $moneyInTheBank['Olivia'] = 20;
+    }
+
+    echo $moneyInTheBank['Olivia'];
+
+    // outputs NULL
+    
+---
