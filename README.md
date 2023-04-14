@@ -332,13 +332,13 @@
 До
 
     $result = array();
-    foreach ($source as $list) {
-        $result = array_merge($result, $list);
+    foreach ($sources as $source) {
+        $result = array_merge($result, $source);
     }
     
 После
 
-    $result = array_merge(...$source);
+    $result = array_merge(...$sources);
     
 ---
 
